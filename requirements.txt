@@ -1,0 +1,21 @@
+# School Service - Production Python dependencies
+# Python 3.11+ recommended
+
+# Web
+fastapi>=0.115.0,<1
+uvicorn[standard]>=0.32.0,<1
+
+# Database
+sqlalchemy[asyncio]>=2.0.0,<3
+asyncpg>=0.30.0,<1
+psycopg2-binary>=2.9.0  # for Alembic sync migrations
+
+# Config & validation
+pydantic>=2.0,<3
+pydantic-settings>=2.0,<3
+
+# Migrations
+alembic>=1.14.0,<2
+
+# Env
+python-dotenv>=1.0.0,<2
