@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey, Integer
+from sqlalchemy import ForeignKey, Identity, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from school_service.models.base import Base
@@ -20,7 +20,7 @@ class TimeTable(Base):
 
     __tablename__ = "time_table"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(Integer, Identity(always=False), primary_key=True)
     day: Mapped[int] = mapped_column(Integer, nullable=False)
     period: Mapped[int] = mapped_column(Integer, nullable=False)
     class_id: Mapped[int] = mapped_column(

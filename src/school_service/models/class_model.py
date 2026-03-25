@@ -1,6 +1,6 @@
 """School class entity (table name 'class' to match Spring Boot)."""
 
-from sqlalchemy import String
+from sqlalchemy import Identity, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from school_service.models.base import Base
@@ -11,7 +11,7 @@ class SchoolClass(Base):
 
     __tablename__ = "class"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(Integer, Identity(always=False), primary_key=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
 
     timetables: Mapped[list["TimeTable"]] = relationship(

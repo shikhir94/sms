@@ -19,33 +19,33 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         "class",
-        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column("id", sa.Integer(), sa.Identity(always=False), nullable=False),
         sa.Column("name", sa.String(255), nullable=False),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "subject",
-        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column("id", sa.Integer(), sa.Identity(always=False), nullable=False),
         sa.Column("name", sa.String(255), nullable=False),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "teacher",
-        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column("id", sa.Integer(), sa.Identity(always=False), nullable=False),
         sa.Column("first_name", sa.String(255), nullable=False),
         sa.Column("last_name", sa.String(255), nullable=False),
         sa.Column("user_name", sa.String(255), nullable=False),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
-        "timetable",
-        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
+        "time_table",
+        sa.Column("id", sa.Integer(), sa.Identity(always=False), nullable=False),
         sa.Column("day", sa.String(255), nullable=False),
         sa.Column("period", sa.String(255), nullable=False),
-        sa.Column("classs_id", sa.Integer(), nullable=False),
+        sa.Column("class_id", sa.Integer(), nullable=False),
         sa.Column("teacher_id", sa.Integer(), nullable=False),
         sa.Column("subject_id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(["classs_id"], ["class.id"]),
+        sa.ForeignKeyConstraint(["class_id"], ["class.id"]),
         sa.ForeignKeyConstraint(["teacher_id"], ["teacher.id"]),
         sa.ForeignKeyConstraint(["subject_id"], ["subject.id"]),
         sa.PrimaryKeyConstraint("id"),
@@ -53,7 +53,7 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    op.drop_table("timetable")
+    op.drop_table("time_table")
     op.drop_table("teacher")
     op.drop_table("subject")
     op.drop_table("class")

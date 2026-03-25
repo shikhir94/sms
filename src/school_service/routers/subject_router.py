@@ -7,6 +7,7 @@ from school_service.database import get_db
 from school_service.models.subject import Subject
 from school_service.repositories.subject_repository import SubjectRepository
 from school_service.schemas.subject_schema import SubjectCreate, SubjectRead, SubjectUpdate
+from school_service.schemas.teacher_schema import TeacherRead
 
 router = APIRouter(prefix="/subject", tags=["subject"])
 
@@ -15,6 +16,19 @@ router = APIRouter(prefix="/subject", tags=["subject"])
 async def find_all(db: AsyncSession = Depends(get_db)) -> list[Subject]:
     repo = SubjectRepository(db)
     return await repo.find_all()
+
+
+@router.get("/{subject_id}/teachers", response_model=list[TeacherRead])
+async def find_teachers_by_subject(
+    subject_id: int,
+    db: AsyncSession = Depends(get_db),
+) -> list:
+    repo = SubjectRepository(db)
+    subject = await repo.find_by_id(subject_id)
+    if not subject:
+        raise HTTPException(status_code=404, detail="Subject not found")
+    teachers = await repo.find_teachers_by_subject_id(subject_id)
+    return teachers
 
 
 @router.get("/{id}", response_model=SubjectRead)
